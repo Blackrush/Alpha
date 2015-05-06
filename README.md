@@ -1,0 +1,4 @@
+alpha
+=====
+
+Extensible authorization library.

@@ -1,0 +1,42 @@
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    group = 'com.github.blackrush.alpha'
+    version = '0.1-SNAPSHOT'
+
+	apply from: "$rootDir/gradle/remote.gradle"
+
+    ext.junit = '4.11'
+    ext.mockito = '1.9.5'
+    ext.rocket = '1.2-alpha6'
+    ext.acara = '2.0-alpha3'
+    ext.guice = '3.0'
+
+    dependencies {
+        testCompile "junit:junit:$junit"
+        testCompile "org.mockito:mockito-core:$mockito"
+    }
+
+    test {
+        workingDir rootDir
+    }
+
+    compileJava {
+        options.compilerArgs << '-Xlint:all' << '-Xlint:-serial' << '-Xlint:-processing'
+        options.encoding = 'UTF-8'
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.4'
+}
+
+task docs(type: Javadoc) {
+    source         = files(allprojects*.sourceSets*.main*.allJava)
+    classpath      = files(allprojects*.sourceSets*.main*.compileClasspath)
+    destinationDir = file("${buildDir}/docs/docs")
+}
+
